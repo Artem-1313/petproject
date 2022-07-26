@@ -1,0 +1,58 @@
+{% extends 'newsapp/base.html' %}
+{% block content %}
+
+<h1>{{ object.title }}</h1>
+<p>{{ object.body }}</p>
+<p>Автор: {{ object.author }}</p>
+
+<form action="{% url 'article_like' object.id %}" method="post">
+{% csrf_token %}
+    {% if user in object.likes.all %}
+    <button type="submit" name="article_id" value="{{ object.id }}" class="btn btn-secondary">Like</button>
+    {% else %}
+      <button type="submit" name="article_id" value="{{ object.id }}" class="btn btn-primary">Like</button>
+    {% endif %}
+
+</form>
+All likes {{ object.sum_of_likes }}
+
+{% if user.is_authenticated %}
+
+<h2>Leave a review</h2>
+<div>
+    <form method="post" action="{% url 'comment_add' object.id %}">
+        {% csrf_token %}
+{{ form }}
+    <input type="submit" value="Make the review">
+</form>
+</div>
+
+{% else %}
+<p style="color:red;">If you want to write a review, please <a href="{% url 'accounts:login' %}">Log in</a> or make a registration <a href="{% url 'accounts:registration' %}">Registration</a></p>
+{% endif %}
+
+
+<h2>Reviews</h2>
+{% for comment in comment_list %}
+
+<div class="box">
+    <div class="profile">
+       <div class="rating">
+           {{ comment.rating }}
+    </div>
+        <div class="bio">
+            <h2>{{ comment.user }}</h2> <h4>published: {{ comment.review_create}}  </h4>
+        </div>
+    </div>
+    {% if request.user ==  comment.user %}
+    da
+<!--    <a href="{% url 'review_update' review.id %}"> update </a> | <a href="{% url 'review_delete' review.id %}">delete</a>-->
+    {% endif %}
+    <div class="review">
+        {{ comment.body }}
+    </div>
+</div>
+{% endfor %}
+
+
+{% endblock %}
