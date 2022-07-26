@@ -24,6 +24,10 @@ class Article(models.Model):
     def sum_of_likes(self):
         return self.likes.all().count()
 
+    @property
+    def sum_of_comments(self):
+        return self.comments.all().count()
+
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
@@ -31,10 +35,17 @@ class Category(models.Model):
         return f"{self.name}"
 
 
+
+
 class Comment(models.Model):
     body = models.CharField(max_length=300)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
+
+    article = models.ForeignKey(Article, related_name="comments", on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_comment = models.DateField(auto_now_add=True)
     update_comment = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.body[:20]}"
+
 
