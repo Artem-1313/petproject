@@ -27,7 +27,7 @@ class LikeArticle(LoginRequiredMixin, View):
 
 def test(request):
     return HttpResponse("<b>Hello</b>")
-    
+
 class ListArticles(ListView):
     model = Article
     paginate_by = 2
