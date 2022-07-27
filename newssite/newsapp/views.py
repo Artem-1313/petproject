@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.list import ListView
@@ -26,8 +27,7 @@ class LikeArticle(LoginRequiredMixin, View):
 
 def test(request):
     return HttpResponse("<b>Hello</b>")
-
-
+    
 class ListArticles(ListView):
     model = Article
     paginate_by = 2
@@ -51,24 +51,33 @@ class AddComment(CreateView):
     def form_valid(self, form):
         form.instance.article_id = self.kwargs['pk']
         form.instance.author = self.request.user
-        print(self.request.user)
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('article_detail', kwargs={'pk': self.object.article_id})
 
 
-class CommentUpdate(UpdateView):
+class CommentUpdate(UserPassesTestMixin, UpdateView):
     model = Comment
     fields = ['body']
     template_name = "newsapp/comment_update.html"
+
+    def test_func(self):
+        if self.request.user == self.get_object().author:
+            return True
+        return False
 
     def get_success_url(self):
         return reverse('article_detail', kwargs={'pk': self.object.article_id})
 
 
-class CommentDelete(DeleteView):
+class CommentDelete(UserPassesTestMixin, DeleteView):
     model = Comment
+
+    def test_func(self):
+        if self.request.user == self.get_object().author:
+            return True
+        return False
 
     def get_success_url(self):
         return reverse_lazy('article_detail', kwargs={'pk': self.object.article_id})
