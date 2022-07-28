@@ -9,6 +9,7 @@ from django.views import View
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin,  UserPassesTestMixin
 from .forms import CommentForm
+
 # Create your views here.
 
 
@@ -18,6 +19,7 @@ class LikeArticle(LoginRequiredMixin, View):
     def post(self, request, **kwargs):
         article = get_object_or_404(Article, id=self.request.POST['article_id'])
         user = self.request.user
+
         if user in article.likes.all():
             article.likes.remove(user)
         else:
@@ -81,3 +83,7 @@ class CommentDelete(UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('article_detail', kwargs={'pk': self.object.article_id})
+
+
+
+

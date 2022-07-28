@@ -1,11 +1,12 @@
 {% extends 'newsapp/base.html' %}
 {% block content %}
 
-<h1>Articles</h1>
+<h1>Новини</h1>
 <ul>
 {% for article in object_list %}
    <div>
-       {{ article }}
+
+       <a href="{% url 'newsapp:article_detail' article.id %}">{{ article.title }}</a>
        {{ article.author }}
        {{ article.created_article }}
        {{ article.image }}

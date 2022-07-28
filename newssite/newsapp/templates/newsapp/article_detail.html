@@ -5,7 +5,7 @@
 <p>{{ object.body }}</p>
 <p>Автор: {{ object.author }}</p>
 
-<form action="{% url 'article_like' object.id %}" method="post">
+<form action="{% url 'newsapp:article_like' object.id %}" method="post">
 {% csrf_token %}
     {% if user in object.likes.all %}
     <button type="submit" name="article_id" value="{{ object.id }}" class="btn btn-secondary">Like</button>
@@ -23,10 +23,10 @@
 <h2>Коментарі</h2>
 Всього комментарів {{ object.sum_of_comments }}
 {% if user.is_authenticated %}
-<a href="{% url 'comment_add' object.id %}">Залишити коментар</a>
+<a href="{% url 'newsapp:comment_add' object.id %}">Залишити коментар</a>
 
 {% else %}
-<p style="color:red;">Ви неавторизовані! Зареєструйтесь, щоб залишити коментар! <a href="{% url 'accounts:login' %}">Log in</a> or make a registration <a href="{% url 'accounts:registration' %}">Registration</a></p>
+<p style="color:red;">Ви неавторизовані! Зареєструйтесь, щоб залишити коментар! <a href="{% url 'accounts:login' %}">Log in</a> or make a registration <a href="{% url 'accounts:register' %}">Registration</a></p>
 {% endif %}
 {% for comment in comment_list %}
 <div class="row d-flex justify-content-center m-4">
@@ -37,7 +37,7 @@
              {{ comment.body }}
     {% if request.user ==  comment.author %}
     da
-            <a href="{% url 'comment_update' comment.id %}"> update  </a> | <a href="{% url 'comment_delete' comment.id %}"> delete </a>
+            <a href="{% url 'newsapp:comment_update' comment.id %}"> update  </a> | <a href="{% url 'newsapp:comment_delete' comment.id %}"> delete </a>
     {% endif %}
 
 

@@ -1,12 +1,33 @@
 <!doctype html>
 <html lang="en">
   <head>
+      {% load static %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bootstrap demo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
   </head>
   <body>
+
+<nav class="navbar navbar-expand-lg navbar-light"  style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="{% url 'newsapp:main' %}"><img src="{% static 'newsapp/news_23848.png' %}"></a>
+  <div class="collapse navbar-collapse" >
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="#">Features</a>
+      <a class="nav-item nav-link" href="#">Pricing</a>
+
+    </div>
+  </div>
+</nav>
+{% if user.is_authenticated %}
+  Привіт, {{ user.get_full_name }}!
+<p>Твоя сторінка
+  <a href="{% url 'accounts:logout' %}"> Вийти </a>
+</p>
+{% else %}
+  <a href="{% url 'accounts:login' %}"> Увійти </a>  | <a href="{% url 'accounts:register' %}"> Зареєструватись </a>
+{% endif %}
    {% block content %} {% endblock%}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
   </body>

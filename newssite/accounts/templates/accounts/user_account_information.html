@@ -1,0 +1,9 @@
+{% extends 'newsapp/base.html' %}
+{% block content %}
+<div class="container py-5 h-100">
+     <h6>Інформація про тебе</h6>
+    Твоє повне ім'я <p class="text-muted">{{ user.get_full_name}}</p>
+    Твоя поштова скринька <p class="text-muted">{{ user.email}}</p>
+    Зареєстрований <p class="text-muted">{{ user.date_joined }}</p>
+</div>
+{% endblock %}

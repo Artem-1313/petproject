@@ -1,9 +1,14 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import FormView
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.views import LogoutView
+from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 class RegisterUser(FormView):
@@ -18,8 +23,8 @@ class RegisterUser(FormView):
         return super(RegisterUser, self).form_valid(form)
 
 class LoginUser(FormView):
-    form_class = AuthenticationForm
-    success_url = '/'
+    form_class = CustomAuthenticationForm
+    success_url = reverse_lazy('newsapp:main')
     template_name = 'accounts/login.html'
 
     def form_valid(self, form):
@@ -28,7 +33,18 @@ class LoginUser(FormView):
         return super(LoginUser, self).form_valid(form)
 
 
-class LogoutUser(LogoutView):
+class LogoutUser(View):
+    def get(self, request):
+        logout(request)
+        return redirect('newsapp:main')
 
-    redirect_field_name = 'index'
-    template_name = "accounts/logout.html"
+
+class UserAccountInformation(LoginRequiredMixin, TemplateView):
+    template_name = "accounts/user_account_information.html"
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+
+        context['user'] = self.request.user
+        return context
