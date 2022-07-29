@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import test, ListArticles, DetailArticle, LikeArticle, AddComment, CommentUpdate, CommentDelete
-
+from django.conf.urls.static import static
+from django.conf import settings
 app_name="newsapp"
 
 urlpatterns = [
@@ -12,4 +13,4 @@ urlpatterns = [
     path('update_comment/<int:pk>/', CommentUpdate.as_view(), name="comment_update"),
     path('delete_comment/<int:pk>/', CommentDelete.as_view(), name="comment_delete"),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

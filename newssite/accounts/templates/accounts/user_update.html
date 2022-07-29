@@ -1,0 +1,17 @@
+{% extends 'newsapp/base.html' %}
+{% block content %}
+
+<ul class="messages" style="width:50%;" >
+   {% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+</ul>
+<div class="shadow p-4 m-5 bg-body rounded">
+<form method="post" >{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update" class="btn btn-primary">
+</form>
+</div>
+{% endblock %}

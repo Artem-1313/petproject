@@ -1,0 +1,13 @@
+{% extends 'newsapp/base.html' %}
+{% block content %}
+{% for i in context %}
+<div class="shadow p-4 m-5 bg-body rounded">
+Місто {{ i.city }}
+    <p> Температура зараз {{ i.current_temperature}}</p>
+    <p> Максимальна температура {{ i.max_temperature}}</p>
+    <p>Мінімальна температура {{ i.min_temperature}}</p>
+      <img src="http://openweathermap.org/img/w/{{ i.icon }}.png" alt="Image">
+</div>
+
+{% endfor %}
+{% endblock %}

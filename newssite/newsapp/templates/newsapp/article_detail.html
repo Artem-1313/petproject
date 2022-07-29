@@ -32,11 +32,11 @@
 <div class="row d-flex justify-content-center m-4">
     <div class="col-md-8 col-lg-6">
         <div class="card shadow-0 border" style="background-color: #f0f2f5;">
-            <p class="small mb-0 ms-6">Автор {{ comment.author }} </p>
+            <p class="small mb-0 ms-6">Автор {{ comment.author.get_full_name }} </p>
             <p class="small mb-0 ms-6">Створено {{ comment.created_comment}}</p>
              {{ comment.body }}
     {% if request.user ==  comment.author %}
-    da
+
             <a href="{% url 'newsapp:comment_update' comment.id %}"> update  </a> | <a href="{% url 'newsapp:comment_delete' comment.id %}"> delete </a>
     {% endif %}
 

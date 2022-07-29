@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'newsapp',
     'accounts',
+    'wheatherapp',
 ]
 
 MIDDLEWARE = [
@@ -117,11 +118,13 @@ USE_I18N = True
 USE_TZ = True
 
 
+DEFAULT_FROM_EMAIL = 'artemkhmil@ukr.net'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.ukr.net'
 EMAIL_HOST_USER = 'artemkhmil@ukr.net'
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_PASSWORD = 'TYrTVprJcvBncNaN'
 EMAIL_PORT = 465
 
 

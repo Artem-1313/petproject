@@ -5,5 +5,7 @@
     Твоє повне ім'я <p class="text-muted">{{ user.get_full_name}}</p>
     Твоя поштова скринька <p class="text-muted">{{ user.email}}</p>
     Зареєстрований <p class="text-muted">{{ user.date_joined }}</p>
+    <p><a href="{% url 'accounts:update_info_user' user.id %}">  Змінити власні дані!</a></p>
+
 </div>
 {% endblock %}

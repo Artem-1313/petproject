@@ -1,5 +1,4 @@
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import  get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -9,7 +8,7 @@ from django.views import View
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin,  UserPassesTestMixin
 from .forms import CommentForm
-
+from wheatherapp.utils import get_wheather
 # Create your views here.
 
 
@@ -25,7 +24,7 @@ class LikeArticle(LoginRequiredMixin, View):
         else:
             article.likes.add(user)
 
-        return HttpResponseRedirect(reverse('article_detail', args=[str(self.request.POST['article_id'])]))
+        return HttpResponseRedirect(reverse('newsapp:article_detail', args=[str(self.request.POST['article_id'])]))
 
 def test(request):
     return HttpResponse("<b>Hello</b>")
@@ -34,6 +33,11 @@ class ListArticles(ListView):
     model = Article
     paginate_by = 2
     template_name = "newsapp/main.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['wheather'] = get_wheather
+        return context
 
 
 class DetailArticle(DetailView):
@@ -56,7 +60,7 @@ class AddComment(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('article_detail', kwargs={'pk': self.object.article_id})
+        return reverse('newsapp:article_detail', kwargs={'pk': self.object.article_id})
 
 
 class CommentUpdate(UserPassesTestMixin, UpdateView):
@@ -70,7 +74,7 @@ class CommentUpdate(UserPassesTestMixin, UpdateView):
         return False
 
     def get_success_url(self):
-        return reverse('article_detail', kwargs={'pk': self.object.article_id})
+        return reverse('newsapp:article_detail', kwargs={'pk': self.object.article_id})
 
 
 class CommentDelete(UserPassesTestMixin, DeleteView):
@@ -82,7 +86,7 @@ class CommentDelete(UserPassesTestMixin, DeleteView):
         return False
 
     def get_success_url(self):
-        return reverse_lazy('article_detail', kwargs={'pk': self.object.article_id})
+        return reverse_lazy('newsapp:article_detail', kwargs={'pk': self.object.article_id})
 
 
 

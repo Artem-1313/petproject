@@ -42,8 +42,8 @@ class NewUserManager(BaseUserManager):
 class NewUser(AbstractUser):
     username = None
     email = models.EmailField(verbose_name="email", max_length=100, unique=True)
-    first_name = models.CharField(verbose_name="first name", max_length=150)
-    last_name = models.CharField(verbose_name="last name", max_length=150)
+    first_name = models.CharField(verbose_name="Ім'я", max_length=150)
+    last_name = models.CharField(verbose_name="Прізвище", max_length=150)
 
     objects = NewUserManager()
 

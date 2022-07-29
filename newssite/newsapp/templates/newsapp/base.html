@@ -13,16 +13,19 @@
   <a class="navbar-brand" href="{% url 'newsapp:main' %}"><img src="{% static 'newsapp/news_23848.png' %}"></a>
   <div class="collapse navbar-collapse" >
     <div class="navbar-nav">
-      <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link active" href="{% url 'wheather:wheather' %}">Погода <span class="sr-only"></span></a>
       <a class="nav-item nav-link" href="#">Features</a>
       <a class="nav-item nav-link" href="#">Pricing</a>
 
     </div>
   </div>
 </nav>
+
+
+
 {% if user.is_authenticated %}
   Привіт, {{ user.get_full_name }}!
-<p>Твоя сторінка
+<p><a href="{% url 'accounts:info' %}"> Твоя сторінка </a>
   <a href="{% url 'accounts:logout' %}"> Вийти </a>
 </p>
 {% else %}

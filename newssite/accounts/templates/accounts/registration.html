@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form action="" method="POST" style="border:2px solid black; width:50%;">
+{% extends 'newsapp/base.html' %}
+{% block content %}
+
+<div class="shadow p-4 m-5 bg-body rounded">
+<form action="" method="POST">
    {% csrf_token %}
 
   {{ form.as_p }}
-<input type="submit" value="Submit">
-
+<input type="submit" value="Submit" class="btn btn-primary">
 </form>
-</body>
-</html>
+</div>
+{% endblock %}

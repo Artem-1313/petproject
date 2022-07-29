@@ -11,7 +11,7 @@ class NewUserAdmin(UserAdmin):
     # add_form = CustomUserCreationForm
     # form = CustomUserChangeForm
     # model = NewUser
-    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'is_active',)
+    list_display = ('email', 'first_name', 'last_name', 'is_staff', 'is_active','comment_count')
     fieldsets = (
         (None, {'fields': ('email', 'password', 'first_name', 'last_name')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
@@ -22,7 +22,10 @@ class NewUserAdmin(UserAdmin):
             'fields': ('email', 'password1', 'password2', 'first_name', 'last_name', 'is_staff', 'is_active')}
          ),
     )
-    search_fields = ('email',)
+    search_fields = ('first_name', 'last_name')
+
+    def comment_count(self, obj):
+        return obj.comment_set.count()
 
 
 

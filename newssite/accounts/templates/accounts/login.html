@@ -1,14 +1,25 @@
 {% extends 'newsapp/base.html' %}
 {% block content %}
-
-
+{% if messages %}
+<div class="shadow p-4 m-5 bg-body rounded">
+<ul class="messages">
+   {% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+</ul>
+</div>
+{% endif %}
+<div class="shadow p-4 m-5 bg-body rounded">
 <form method="post">
      <div class="form-group">
      {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Log In">
-           </div>
+         <br>
+    <input type="submit" value="Log In" class="btn btn-primary">
+     </div>
 </form>
-
-
+<a href="{% url 'password_reset' %}">Забули пароль?</a>
+</div>
 {% endblock %}
