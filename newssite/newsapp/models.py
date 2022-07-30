@@ -7,7 +7,7 @@ User = get_user_model()
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, verbose_name="Заголовок")
     annotation = models.CharField(max_length=300)
     body = models.TextField()
     image = models.ImageField(upload_to='images', default="images/default.jpg")
