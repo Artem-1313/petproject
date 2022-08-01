@@ -11,6 +11,8 @@ class ArticleAdmin(admin.ModelAdmin):
         ('categories', admin.RelatedFieldListFilter),
     )
 
+    readonly_fields = ('comments', 'likes',)
+
     def likes_count(self, obj):
         return obj.sum_of_likes
 

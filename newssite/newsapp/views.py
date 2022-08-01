@@ -45,8 +45,7 @@ class DetailArticle(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        context['comment_list'] = Comment.objects.filter(article=self.get_object())
+        context['comment_list'] = Comment.objects.filter(article_comments=self.get_object())
         return context
 
 
@@ -55,12 +54,16 @@ class AddComment(CreateView):
     template_name = "newsapp/add_comment.html"
 
     def form_valid(self, form):
-        form.instance.article_id = self.kwargs['pk']
-        form.instance.author = self.request.user
+        self.object = form.save(commit=False)
+        self.object.author = self.request.user
+        article = get_object_or_404(Article, id=self.kwargs['pk'])
+        self.object.save()
+        article.comments.add(self.object)
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('newsapp:article_detail', kwargs={'pk': self.object.article_id})
+        return reverse('newsapp:article_detail', kwargs={'pk': self.kwargs['pk']})
+
 
 
 class CommentUpdate(UserPassesTestMixin, UpdateView):
@@ -74,7 +77,7 @@ class CommentUpdate(UserPassesTestMixin, UpdateView):
         return False
 
     def get_success_url(self):
-        return reverse('newsapp:article_detail', kwargs={'pk': self.object.article_id})
+        return reverse('newsapp:main')
 
 
 class CommentDelete(UserPassesTestMixin, DeleteView):
@@ -86,7 +89,7 @@ class CommentDelete(UserPassesTestMixin, DeleteView):
         return False
 
     def get_success_url(self):
-        return reverse_lazy('newsapp:article_detail', kwargs={'pk': self.object.article_id})
+        return reverse_lazy('newsapp:main')
 
 
 
