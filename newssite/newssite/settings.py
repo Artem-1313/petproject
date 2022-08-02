@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'newsapp',
     'accounts',
     'wheatherapp',
+    'api',
+    'rest_framework',
+    'rest_framework.authtoken',
+
 ]
 
 MIDDLEWARE = [
@@ -72,7 +76,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'newssite.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
 
+    ]
+}
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
