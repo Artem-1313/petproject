@@ -1,4 +1,4 @@
-from django.shortcuts import  get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -27,7 +27,8 @@ class LikeArticle(LoginRequiredMixin, View):
         return HttpResponseRedirect(reverse('newsapp:article_detail', args=[str(self.request.POST['article_id'])]))
 
 def test(request):
-    return HttpResponse("<b>Hello</b>")
+    article = get_object_or_404(Article, id=2)
+    return render(request, "admin/test.html", context={"test": article})
 
 class ListArticles(ListView):
     model = Article
