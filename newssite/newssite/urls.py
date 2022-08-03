@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_default
 from accounts.admin import new_admin_site
 from rest_framework.authtoken import views
+from api.urls import router as router_
 
 
 urlpatterns = [
@@ -26,6 +27,9 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('wheather/', include('wheatherapp.urls')),
     path('api-token-au/', views.obtain_auth_token),
+    path('viewset_articles/', include(router_.urls)),
+    path('viewset_comments/', include(router_.urls)),
+    path('api/', include('api.urls')),
     path('password-reset/', auth_default.PasswordResetView.as_view(template_name="accounts/password_reset.html"),
          name="password_reset"),
     path('reset-confirm/<uidb64>/<token>/',

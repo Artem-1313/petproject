@@ -19,7 +19,7 @@ class Article(models.Model):
     created_article = models.DateField(auto_now_add=True)
     update_article = models.DateField(auto_now=True)
     categories = models.ForeignKey('Category', related_name='article_categories', on_delete=models.PROTECT)
-    comments = models.ManyToManyField('Comment', blank=True, related_name='article_comments', default=None, null=True, )
+    comments = models.ManyToManyField('Comment', blank=True, related_name='article_comments', default=None )
     likes = models.ManyToManyField(User, related_name="article_likes", default=None, blank=True)
 
     def __str__(self):
@@ -45,7 +45,8 @@ class Category(models.Model):
 class Comment(models.Model):
     body = models.CharField(max_length=300)
 
-  #  article = models.ForeignKey(Article, related_name="comments", on_delete=models.CASCADE, null=True)
+
+    article = models.ForeignKey(Article, related_name="comments_art", on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_comment = models.DateField(auto_now_add=True)
     update_comment = models.DateField(auto_now=True)
