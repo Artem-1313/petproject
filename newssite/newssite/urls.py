@@ -26,7 +26,7 @@ urlpatterns = [
     path('', include('newsapp.urls')),
     path('accounts/', include('accounts.urls')),
     path('wheather/', include('wheatherapp.urls')),
-    path('api-token-au/', views.obtain_auth_token),
+    path('auth-token/', views.obtain_auth_token),
     path('viewset_articles/', include(router_.urls)),
     path('viewset_comments/', include(router_.urls)),
     path('api/', include('api.urls')),

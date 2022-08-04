@@ -16,16 +16,16 @@ class ArticleAdmin(admin.ModelAdmin):
         ('categories', admin.RelatedFieldListFilter),
     )
 
-    readonly_fields = ('comments', 'likes',)
+    readonly_fields = ( 'likes',)
 
     def likes_count(self, obj):
         return obj.sum_of_likes
 
 
     def comments_count(self, obj):
-        return obj.sum_of_comments
+        return obj.comments_art.all().count()
 
-    comments_count.short_description = 'Кількість коментарів'
+    #comments_count.short_description = 'Кількість коментарів'
     likes_count.short_description = 'Кількість лайків'
 
     search_fields = ('title', )

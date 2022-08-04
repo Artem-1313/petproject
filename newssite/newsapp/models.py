@@ -19,7 +19,7 @@ class Article(models.Model):
     created_article = models.DateField(auto_now_add=True)
     update_article = models.DateField(auto_now=True)
     categories = models.ForeignKey('Category', related_name='article_categories', on_delete=models.PROTECT)
-    comments = models.ManyToManyField('Comment', blank=True, related_name='article_comments', default=None )
+   # comments = models.ManyToManyField('Comment', blank=True, related_name='article_comments', default=None )
     likes = models.ManyToManyField(User, related_name="article_likes", default=None, blank=True)
 
     def __str__(self):
@@ -29,9 +29,9 @@ class Article(models.Model):
     def sum_of_likes(self):
         return self.likes.all().count()
 
-    @property
-    def sum_of_comments(self):
-        return self.comments.all().count()
+    # @property
+    # def sum_of_comments(self):
+    #     return self.comments.all().count()
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
