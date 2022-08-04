@@ -15,6 +15,7 @@ class Article(models.Model):
     annotation = models.CharField(max_length=300)
     body = models.TextField()
     image = models.ImageField(upload_to='images', default="images/default.jpg")
+    top_news = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_article = models.DateField(auto_now_add=True)
     update_article = models.DateField(auto_now=True)
@@ -44,10 +45,8 @@ class Category(models.Model):
 
 class Comment(models.Model):
     body = models.CharField(max_length=300)
-
-
-    article = models.ForeignKey(Article, related_name="comments_art", on_delete=models.CASCADE, null=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    article = models.ForeignKey(Article, related_name="comments_art", on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     created_comment = models.DateField(auto_now_add=True)
     update_comment = models.DateField(auto_now=True)
 

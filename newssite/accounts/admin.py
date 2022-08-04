@@ -24,6 +24,7 @@ class NewAdminSite(AdminSite):
         return super(NewAdminSite, self).index(request, extra_context=extra_context)
 
 
+
 new_admin_site = NewAdminSite()
 
 
@@ -31,24 +32,26 @@ new_admin_site = NewAdminSite()
 class ArticleInline(admin.StackedInline):
     model = Article
     verbose_name_plural = "Пости"
-    fields = ('title', 'annotation', 'body', 'test')
-    readonly_fields = ('id','title', 'annotation', 'body', 'test')
+    fields = ('title', 'annotation', 'body')
+    readonly_fields = ('id',  'title', 'annotation', 'body')
     can_delete = False
     extra = 0
 
-    def test(self, obj):
-        print("--", self)
-        return Article.objects.all()
 
-    test.allow_tags = True
 
 
 class CommentInline(admin.StackedInline):
+
+
     model = Comment
-    verbose_name_plural = "Коментарі користувача"
-    readonly_fields = ('body', 'article')
+    verbose_name_plural = "Коментарі користувача "
+    readonly_fields = ('body', 'article', )
     can_delete = False
     extra = 0
+
+
+
+
 
 
 class NewUserAdmin(UserAdmin):
@@ -58,7 +61,7 @@ class NewUserAdmin(UserAdmin):
 
     list_display = ('email', 'first_name', 'last_name', 'is_active', 'comment_count')
     fieldsets = (
-        (None, {'fields': ('first_name', 'last_name',)}),
+        (None, {'fields': ('first_name', 'last_name')}),
         ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser')}),
     )
 
@@ -70,6 +73,9 @@ class NewUserAdmin(UserAdmin):
             'fields': ('first_name', 'last_name', 'password2', 'is_staff', 'is_active', )}
          ),
     )
+
+
+
     def comment_count(self, obj):
         return obj.comment_set.count()
 

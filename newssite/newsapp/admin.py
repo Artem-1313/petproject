@@ -15,8 +15,14 @@ class ArticleAdmin(admin.ModelAdmin):
     list_filter = (
         ('categories', admin.RelatedFieldListFilter),
     )
+    exclude = ('author',)
+    readonly_fields = ( 'likes', )
 
-    readonly_fields = ( 'likes',)
+
+    def save_model(self, request, obj, form, change):
+        if getattr(obj, 'author', None) is None:
+            obj.author = request.user
+        obj.save()
 
     def likes_count(self, obj):
         return obj.sum_of_likes
@@ -24,6 +30,8 @@ class ArticleAdmin(admin.ModelAdmin):
 
     def comments_count(self, obj):
         return obj.comments_art.all().count()
+
+
 
     #comments_count.short_description = 'Кількість коментарів'
     likes_count.short_description = 'Кількість лайків'
@@ -35,6 +43,7 @@ class ArticleAdmin(admin.ModelAdmin):
 @admin.register(Category, site=new_admin_site)
 class CategoryAdmin(admin.ModelAdmin):
     list_filter = ('name',)
+
 
 
 
