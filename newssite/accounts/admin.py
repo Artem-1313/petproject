@@ -20,7 +20,7 @@ class NewAdminSite(AdminSite):
         extra_context['register_user_week_ago'] = NewUser.objects.filter(date_joined__range=(week_ago, today)).count()
         extra_context['count_news'] = Article.objects.all().count()
         extra_context['all_likes'] = sum(i.likes.count() for i in Article.objects.all())
-        extra_context['all_comments'] = sum(i.comments.count() for i in Article.objects.all())
+        extra_context['all_comments'] = sum(i.comments_art.all().count() for i in Article.objects.all())
         return super(NewAdminSite, self).index(request, extra_context=extra_context)
 
 
@@ -31,16 +31,22 @@ new_admin_site = NewAdminSite()
 class ArticleInline(admin.StackedInline):
     model = Article
     verbose_name_plural = "Пости"
-    fields = ('title', 'annotation', 'body', 'comments')
-    readonly_fields = ('title', 'annotation', 'body', 'comments')
+    fields = ('title', 'annotation', 'body', 'test')
+    readonly_fields = ('id','title', 'annotation', 'body', 'test')
     can_delete = False
     extra = 0
+
+    def test(self, obj):
+        print("--", self)
+        return Article.objects.all()
+
+    test.allow_tags = True
 
 
 class CommentInline(admin.StackedInline):
     model = Comment
     verbose_name_plural = "Коментарі користувача"
-    readonly_fields = ('body',)
+    readonly_fields = ('body', 'article')
     can_delete = False
     extra = 0
 

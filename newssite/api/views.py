@@ -35,11 +35,12 @@ class CommentAPI(ListModelMixin, RetrieveModelMixin, CreateModelMixin, GenericVi
     serializer_class = CommentSerializer
 
     def perform_create(self, serializer):
-        print(self.request.user)
+        print(self)
         if self.request.user.is_authenticated:
+            print(self.request.POST)
             serializer.save(**{'author': self.request.user})
-        else:
-            print(serializer.save())
+        # else:
+        #     print(serializer.save())
 
 
 

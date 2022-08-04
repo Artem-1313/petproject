@@ -49,18 +49,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-   # article_id = serializers.PrimaryKeyRelatedField(queryset=Article.objects.all(), write_only=True, many=True)
-   tags_id = serializers.PrimaryKeyRelatedField(queryset=Comment.objects.all(), write_only=True, many=True)
 
    class Meta:
         model = Comment
-        fields = ['id', 'body', 'article', 'tags_id']
-        read_only_fields = ['id']
+        fields = ['id', 'body', 'article' ]
 
-   def create(self, validated_data):
-        article_id = validated_data.pop('article')
-        #print(article_id.id)
-        article = Article.objects.get(id=article_id.id)
-        #article.comments.add(self.context['view'])
-        print(self)
-        return article
+
+   # def create(self, validated_data):
+   #      article_id = validated_data.pop('article')
+   #      #comment_id = validated_data.pop('id')
+   #      print(self.serializers)
+   #      article = Article.objects.get(id=article_id.id)
+   #      #article.comments.add(self.context['view'])
+   #      print(self)
+   #      return article

@@ -46,7 +46,7 @@ class DetailArticle(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comment_list'] = Comment.objects.filter(article_comments=self.get_object())
+        context['comment_list'] = Comment.objects.filter(article=self.get_object())
         return context
 
 
@@ -57,9 +57,10 @@ class AddComment(CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.author = self.request.user
-        article = get_object_or_404(Article, id=self.kwargs['pk'])
+        self.object.article_id = self.kwargs['pk']
+        #article = get_object_or_404(Article, id=self.kwargs['pk'])
         self.object.save()
-        article.comments.add(self.object)
+        #article.comments.add(self.object)
         return super().form_valid(form)
 
     def get_success_url(self):
