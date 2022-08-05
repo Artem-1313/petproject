@@ -4,6 +4,7 @@ from django.db.models import Count
 from newsapp.models import Article, Comment, Category
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
@@ -23,6 +24,7 @@ class AllArticles(ListAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    pagination_class =  PageNumberPagination
     filterset_fields = ['author', 'categories']
     search_fields = ['title']
 
@@ -77,16 +79,25 @@ class CategoriesAPI(ListAPIView):
 
 
 class TopNews(ListAPIView):
-    today = datetime.date.today()
-    week_ago = today - datetime.timedelta(days=2)
-    id_top_article = [i['article'] for i in list(Comment.objects.values('article').annotate(dcount=Count('article_id')))
-                      if i['dcount'] >= 2]
-    id_top_like = [i.id for i in Article.objects.all() if i.likes.all().count() >= 1]
 
-    queryset = Article.objects.filter((Q(pk__in=id_top_article) | Q(pk__in=id_top_like) | Q(top_news=True)) &
-                                      Q(created_article__range=(week_ago, today)))
-    queryset = Article.objects.all()
+    queryset = Article
     serializer_class = ArticleSerializer
+
+    def get_queryset(self):
+        today = datetime.date.today()
+        week_ago = today - datetime.timedelta(days=2)
+        id_top_article = [i['article'] for i in
+                          list(Comment.objects.values('article').annotate(dcount=Count('article_id')))
+                          if i['dcount'] >= 2]
+        id_top_like = [i.id for i in Article.objects.all() if i.likes.all().count() >= 1]
+
+        queryset = Article.objects.filter((Q(pk__in=id_top_article) | Q(pk__in=id_top_like) | Q(top_news=True)) &
+                                          Q(created_article__range=(week_ago, today)))
+
+        return queryset
+
+
+
 
 
 class UserAPI(ListModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
