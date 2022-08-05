@@ -39,10 +39,10 @@ class NewsappAPI(ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['author', 'categories']
     search_fields = ['title']
-    permission_classes = [IsAuthenticated & IsOwnerArticleOrReadOnly ]
+    permission_classes = [IsAuthenticated & IsOwnerArticleOrReadOnly & IsStaffUser ]
 
-   # @permission_classes([AllowAny])
-    @action(methods=['post'], detail=True)
+
+    @action(methods=['post'], detail=True, permission_classes=[IsAuthenticated])
     def put_remove_like(self, request, pk=None):
 
         article = self.get_object()
