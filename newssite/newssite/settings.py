@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
+from celery.schedules import crontab
 
 from pathlib import Path
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
+    'django_celery_beat',
 
 
 ]
@@ -97,10 +99,10 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('db_name'),
-        'USER': os.environ.get('db_user'),
-        'PASSWORD': os.environ.get('db_password'),
-        'HOST': 'localhost',
+        'NAME': "postgres",
+        'USER': "postgres",
+        'PASSWORD': "postgres",
+        'HOST': 'db',
         'PORT': "5432",
     }
 }
@@ -146,7 +148,7 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.ukr.net'
 EMAIL_HOST_USER = 'artemkhmil@ukr.net'
-EMAIL_HOST_PASSWORD = os.environ.get('mail_password')
+EMAIL_HOST_PASSWORD = 'TYrTVprJcvBncNaN'
 EMAIL_PORT = 465
 
 
@@ -164,3 +166,9 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SITE_URL ='http://127.0.0.1:8000'
+
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'

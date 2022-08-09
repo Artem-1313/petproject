@@ -1,0 +1,47 @@
+version: "3.9"
+   
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+  redis:
+    image: "redis:alpine"
+  celery:
+    build: .
+    command: celery -A newssite worker  --loglevel=DEBUG
+    volumes:
+      - .:/code
+    environment:
+      - DEBUG=1
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    depends_on:
+      - web
+      - redis
+  celery-beat:
+    build: .
+    command: celery -A newssite beat -l info
+    volumes:
+      - .:/code
+    environment:
+      - DEBUG=1
+    depends_on:
+      - redis

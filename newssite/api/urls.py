@@ -1,6 +1,6 @@
 from rest_framework import routers
 from django.urls import path, include
-from .views import NewsappAPI, AllArticles, RetrieveArticle, CommentAPI, CategoriesAPI, TopNews, UserAPI
+from .views import NewsappAPI, AllArticles, RetrieveArticle, CommentAPI, CategoriesAPI, TopNews, UserAPI, AddSubscriber
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -15,6 +15,7 @@ urlpatterns = [
     path('all/<int:pk>/', RetrieveArticle.as_view()),
     path('category/', CategoriesAPI.as_view()),
     path('topnews/', TopNews.as_view()),
+    path('add_subscriber/', AddSubscriber.as_view()),
 
 
 

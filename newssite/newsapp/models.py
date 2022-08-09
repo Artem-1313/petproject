@@ -54,7 +54,16 @@ class Comment(models.Model):
         return f"{self.body[:20]}"
 
 
+class Subscriber(models.Model):
+    email = models.EmailField(verbose_name="email", max_length=100, unique=True)
+
+    def __str__(self):
+        return f"{self.email}"
+
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+

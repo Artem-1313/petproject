@@ -1,8 +1,8 @@
 from rest_framework.decorators import action
 from django.db.models import Q
 from django.db.models import Count
-from newsapp.models import Article, Comment, Category
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from newsapp.models import Article, Comment, Category, Subscriber
+from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIView
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin, UpdateModelMixin
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -10,9 +10,10 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import ArticleSerializer, RetrieveSerialezer, CommentSerializer, CategorySerializer, UserSerializer
+from .serializers import ArticleSerializer, RetrieveSerialezer, CommentSerializer, CategorySerializer, UserSerializer, SubscriberSerializer
 from django.contrib.auth import get_user_model
 from .permissions import IsOwnerOrReadOnly, IsStaffUser, IsOwnerArticleOrReadOnly
+from django.contrib.auth.tokens import default_token_generator
 import datetime
 
 User = get_user_model()
@@ -24,7 +25,7 @@ class AllArticles(ListAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    pagination_class =  PageNumberPagination
+    pagination_class = PageNumberPagination
     filterset_fields = ['author', 'categories']
     search_fields = ['title']
 
@@ -32,6 +33,11 @@ class AllArticles(ListAPIView):
 class RetrieveArticle(RetrieveAPIView):
     queryset = Article.objects.all()
     serializer_class = RetrieveSerialezer
+
+
+class AddSubscriber(ListCreateAPIView):
+    queryset = Subscriber.objects.all()
+    serializer_class = SubscriberSerializer
 
 
 

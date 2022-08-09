@@ -1,11 +1,15 @@
 from rest_framework import serializers
-from newsapp.models import Article, Category, Comment
+from newsapp.models import Article, Category, Comment, Subscriber
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 
 
+class SubscriberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subscriber
+        fields = ['email']
 
 class ArticleAll(serializers.ModelSerializer):
     class Meta:

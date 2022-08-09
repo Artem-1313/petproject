@@ -4,7 +4,7 @@ from django.contrib.admin import AdminSite, ModelAdmin
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.models import Group
 from .models import NewUser
-from newsapp.models import Article, Comment
+from newsapp.models import Article, Comment, Subscriber
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 
 
@@ -91,3 +91,4 @@ class NewUserAdmin(UserAdmin):
 # admin.site.register(NewUser, NewUserAdmin)
 #new_admin_site.register(Group, GroupAdmin)
 new_admin_site.register(NewUser, NewUserAdmin)
+new_admin_site.register(Subscriber)
