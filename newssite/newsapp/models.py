@@ -36,7 +36,7 @@ class Article(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
-    followers = models.ManyToManyField(User, related_name='user_categories')
+    followers = models.ManyToManyField(User, related_name='user_categories', blank=True)
 
     def __str__(self):
         return f"{self.name}"
@@ -72,8 +72,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 def create_article(sender, instance=None, created=False, **kwargs):
     if created:
         for follower in Category.objects.get(id=instance.categories.id).followers.all():
-
-            send_mail_category.delay(instance.id, follower.email)
+            send_mail_category.delay(instance.id, instance.categories.name, follower.email)
 
 
 

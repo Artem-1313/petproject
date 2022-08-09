@@ -17,10 +17,10 @@ app.conf.timezone = 'Europe/London'
 
 
 @app.task()
-def send_mail_category(article_id,  email):
+def send_mail_category(article_id, article_category, email):
     msg_html = render_to_string('newsapp/category_follower.html', {'domain': settings.SITE_URL,
                                                                    'id': article_id,
-
+                                                                   'category': article_category
 
                                                                    })
     send_mail(message="msg",

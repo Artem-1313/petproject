@@ -5,6 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-Нова публікація   <a href="{{ domain }}{% url 'newsapp:article_detail' id %}">Прочитати!</a>
+Нова публікація за тематикою <b>{{ category }}</b> <a href="{{ domain }}{% url 'newsapp:article_detail' id %}">Прочитати!</a>
 </body>
 </html>
