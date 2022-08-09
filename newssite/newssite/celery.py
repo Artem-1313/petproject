@@ -17,8 +17,18 @@ app.conf.timezone = 'Europe/London'
 
 
 @app.task()
-def send_mail_category(email):
-    send_mail(message='New book', subject="asjdhasjkh",from_email='artemkhmil@ukr.net', recipient_list=[email], fail_silently=False)
+def send_mail_category(article_id, article_category, email):
+    msg_html = render_to_string('newsapp/category_follower.html', {'domain': settings.SITE_URL,
+                                                                   'id': article_id,
+                                                                   'category': article_category
+
+                                                                   })
+    send_mail(message="msg",
+              subject="Нова публікація",
+              from_email='artemkhmil@ukr.net',
+              recipient_list=[email],
+              html_message=msg_html,
+              fail_silently=False)
 
 
 @app.task()

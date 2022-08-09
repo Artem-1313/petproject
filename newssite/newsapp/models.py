@@ -72,10 +72,8 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 def create_article(sender, instance=None, created=False, **kwargs):
     if created:
         for follower in Category.objects.get(id=instance.categories.id).followers.all():
-            message = f"Вийшла нова новина по тематиці " \
-                      f"{instance.categories}"
-            print(follower.email)
-            send_mail_category.delay(follower.email)
+            print(instance.categories)
+            send_mail_category.delay(instance.id, "fdghasfdghfasdh", follower.email)
 
 
 
