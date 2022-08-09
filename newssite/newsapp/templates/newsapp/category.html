@@ -1,0 +1,33 @@
+{% extends 'newsapp/base.html' %}
+{% block content %}
+{% load static %}
+
+<h1>Новини для категорії {{ name }}</h1>
+<ul>
+{% for article in object_list %}
+   <div class="container-fluid">
+       <div class="row">
+            <div class="col-2">
+                <a href="{% url 'newsapp:article_detail' article.id %}" class="img-fluid"> <img src="{{ article.image.url }}" width="170px"></a>
+           </div>
+ <div class="col-2">
+    {{ article.categories }}
+     <a href="{% url 'newsapp:article_detail' article.id %}" class="img-fluid"> <button class="btn btn-primary">Детальніше</button></a>
+     <p> <b class="text-muted">Автор</b> {{ article.author.get_full_name }} </p>
+     <p> <b class="text-muted">Створено</b>   {{ article.created_article }} </p>
+ </div>
+
+
+
+       {{ article.annotation }}
+       {{ article.categories }}
+    </div>
+</div>
+    <br>
+{% empty %}
+    <li>No articles yet.</li>
+{% endfor %}
+</ul>
+
+
+{% endblock %}

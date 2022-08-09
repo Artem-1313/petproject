@@ -3,13 +3,25 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Article, Comment
+from .models import Article, Comment, Category
 from django.views import View
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin,  UserPassesTestMixin
 from .forms import CommentForm
 from wheatherapp.utils import get_wheather
 # Create your views here.
+
+
+class CategoryFilter(DetailView):
+    model = Category
+    template_name = "newsapp/category.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object_list'] = Category.objects.get(id=self.get_object().id).article_categories.all()
+        context['name'] = Category.objects.get(id=self.get_object().id)
+        return context
+
 
 
 class LikeArticle(LoginRequiredMixin, View):

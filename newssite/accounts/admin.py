@@ -84,11 +84,9 @@ class NewUserAdmin(UserAdmin):
 
     comment_count.short_description = 'Кількість коментарів'
 
+    def add_view(self, request, extra_content=None):
+        print(self.request)
+        return super(NewUserAdmin, self).add_view(request)
 
-
-# admin.site.unregister(NewUser)
-
-# admin.site.register(NewUser, NewUserAdmin)
-#new_admin_site.register(Group, GroupAdmin)
 new_admin_site.register(NewUser, NewUserAdmin)
 new_admin_site.register(Subscriber)

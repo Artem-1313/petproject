@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
-
+from newssite.celery import send_mail_category
 
 User = get_user_model()
 # Create your models here.
@@ -36,6 +36,7 @@ class Article(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
+    followers = models.ManyToManyField(User, related_name='user_categories')
 
     def __str__(self):
         return f"{self.name}"
@@ -65,5 +66,22 @@ class Subscriber(models.Model):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+@receiver(post_save, sender=Article)
+def create_article(sender, instance=None, created=False, **kwargs):
+    if created:
+        for follower in Category.objects.get(id=instance.categories.id).followers.all():
+            message = f"Вийшла нова новина по тематиці " \
+                      f"{instance.categories}"
+            print(follower.email)
+            send_mail_category.delay(follower.email)
+
+
+
+
+
+
+
 
 
