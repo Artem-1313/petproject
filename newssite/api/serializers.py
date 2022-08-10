@@ -51,6 +51,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ['id', 'body', 'article', 'author']
 
 class RetrieveSerialezer(serializers.ModelSerializer):
+
     article_likes = serializers.SerializerMethodField()
     article_comments = serializers.SerializerMethodField()
     comment = CommentSerializer(source="comments_art", many=True)

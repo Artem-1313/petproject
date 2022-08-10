@@ -10,7 +10,8 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import ArticleSerializer, RetrieveSerialezer, CommentSerializer, CategorySerializer, UserSerializer, SubscriberSerializer
+from .serializers import ArticleSerializer, RetrieveSerialezer, CommentSerializer, CategorySerializer, \
+    UserSerializer, SubscriberSerializer, ArticleAll
 from django.contrib.auth import get_user_model
 from .permissions import IsOwnerOrReadOnly, IsStaffUser, IsOwnerArticleOrReadOnly
 from django.contrib.auth.tokens import default_token_generator
@@ -23,11 +24,11 @@ User = get_user_model()
 
 class AllArticles(ListAPIView):
     queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
+    serializer_class = ArticleAll
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    pagination_class = PageNumberPagination
     filterset_fields = ['author', 'categories']
     search_fields = ['title']
+    ordering = ['id']
 
 
 class RetrieveArticle(RetrieveAPIView):

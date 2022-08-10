@@ -26,7 +26,7 @@ urlpatterns = [
     path('', include('newsapp.urls')),
     path('accounts/', include('accounts.urls')),
     path('wheather/', include('wheatherapp.urls')),
-    path('auth-token/', views.obtain_auth_token),
+    path('auth-token/', views.obtain_auth_token, name='auth'),
     path('viewset/', include(router_.urls)),
     path('api/', include('api.urls')),
     path('password-reset/', auth_default.PasswordResetView.as_view(template_name="accounts/password_reset.html"),

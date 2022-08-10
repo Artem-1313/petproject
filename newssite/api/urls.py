@@ -11,12 +11,10 @@ router.register('account', UserAPI, basename='account_api')
 
 urlpatterns = [
 
-    path('all/', AllArticles.as_view()),
-    path('all/<int:pk>/', RetrieveArticle.as_view()),
-    path('category/', CategoriesAPI.as_view()),
-    path('topnews/', TopNews.as_view()),
+    path('all/', AllArticles.as_view(), name="all-articles"),
+    path('all/<int:pk>/', RetrieveArticle.as_view(), name="retrieve-article"),
+    path('category/', CategoriesAPI.as_view(), name="all-categories"),
+    path('topnews/', TopNews.as_view(), name="top-news"),
     path('add_subscriber/', AddSubscriber.as_view()),
-
-
 
 ]
