@@ -15,6 +15,6 @@ urlpatterns = [
     path('all/<int:pk>/', RetrieveArticle.as_view(), name="retrieve-article"),
     path('category/', CategoriesAPI.as_view(), name="all-categories"),
     path('topnews/', TopNews.as_view(), name="top-news"),
-    path('add_subscriber/', AddSubscriber.as_view()),
+    path('add_subscriber/', AddSubscriber.as_view(), name="add-subscriber"),
 
 ]

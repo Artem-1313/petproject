@@ -48,7 +48,7 @@ class NewsappAPI(ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['author', 'categories']
     search_fields = ['title']
-    permission_classes = [IsAuthenticated & IsOwnerArticleOrReadOnly & IsStaffUser ]
+    permission_classes = [IsAuthenticated & IsOwnerArticleOrReadOnly & IsStaffUser]
 
 
     @action(methods=['post'], detail=True, permission_classes=[IsAuthenticated])
@@ -104,10 +104,9 @@ class TopNews(ListAPIView):
         return queryset
 
 
-
-
-
 class UserAPI(ListModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
+
