@@ -1,11 +1,14 @@
 {% extends 'newsapp/base.html' %}
 {% block content %}
 {% load static %}
+
+<div>
 {% for i in wheather %}
 {{ i.city }}
 {{ i.current_temperature}}
- <img src="http://openweathermap.org/img/w/{{ i.icon }}.png" alt="Image">
+ <img src="http://openweathermap.org/img/w/{{ i.icon }}.png" alt="Image" width="40 ">
 {% endfor %}
+    </div>
 <h1>Новини</h1>
 <ul>
 {% for article in object_list %}
@@ -29,14 +32,14 @@
 </div>
     <br>
 {% empty %}
-    <li>No articles yet.</li>
+    <li>Не має новин.</li>
 {% endfor %}
 </ul>
 <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            <a href="?page=1">&laquo; Перша</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Попередня</a>
         {% endif %}
 
         <span class="current">
@@ -44,8 +47,8 @@
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            <a href="?page={{ page_obj.next_page_number }}">Наступня</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Остання &raquo;</a>
         {% endif %}
     </span>
 </div>

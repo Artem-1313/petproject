@@ -25,7 +25,6 @@ class CategoryFilter(DetailView):
 
 
 class LikeArticle(LoginRequiredMixin, View):
-    #redirect_field_name = 'login'
 
     def post(self, request, **kwargs):
         article = get_object_or_404(Article, id=self.request.POST['article_id'])
@@ -44,7 +43,7 @@ def test(request):
 
 class ListArticles(ListView):
     model = Article
-    paginate_by = 2
+    paginate_by = 5
     template_name = "newsapp/main.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -60,6 +59,8 @@ class DetailArticle(DetailView):
         context = super().get_context_data(**kwargs)
         context['comment_list'] = Comment.objects.filter(article=self.get_object())
         return context
+
+
 
 
 class AddComment(CreateView):
