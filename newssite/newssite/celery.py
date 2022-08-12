@@ -1,5 +1,5 @@
 from __future__ import absolute_import, unicode_literals
-from django.core.mail import EmailMessage, send_mail
+from django.core.mail import EmailMessage, send_mail,get_connection
 from django.template.loader import render_to_string
 from django.conf import settings
 from celery.schedules import crontab
@@ -8,7 +8,7 @@ from celery import Celery
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "newssite.settings")
 
-app = Celery("newssite")
+app = Celery("newssite",backend='django.core.mail.backends.smtp.EmailBackend')
 
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.conf.timezone = 'UTC'
@@ -18,6 +18,7 @@ app.conf.timezone = 'Europe/London'
 
 @app.task()
 def send_mail_category(article_id, article_category, email):
+
     msg_html = render_to_string('newsapp/category_follower.html', {'domain': settings.SITE_URL,
                                                                    'id': article_id,
                                                                    'category': article_category
@@ -28,7 +29,9 @@ def send_mail_category(article_id, article_category, email):
               from_email='artemkhmil@ukr.net',
               recipient_list=[email],
               html_message=msg_html,
-              fail_silently=False)
+              fail_silently=False,
+              )
+
 
 
 @app.task()

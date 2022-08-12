@@ -22,10 +22,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-x!gjrcer^a0=tzh38hl)4pb80qex_msrvs3eu(&k6eq+v6+z8j'
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get("DEBUG", default=0))
 
 ALLOWED_HOSTS = ['*']
 
@@ -99,9 +100,9 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "postgres",
-        'USER': "postgres",
-        'PASSWORD': "postgres",
+        'NAME': os.environ.get('POSTGRES_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
         'HOST': 'db',
         'PORT': "5432",
     }
@@ -148,7 +149,8 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.ukr.net'
 EMAIL_HOST_USER = 'artemkhmil@ukr.net'
-EMAIL_HOST_PASSWORD = 'TYrTVprJcvBncNaN'
+EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD')
+#EMAIL_HOST_PASSWORD = 'TYrTVprJcvBncNaN'
 EMAIL_PORT = 465
 
 
@@ -167,7 +169,8 @@ STATICFILES_DIRS = (
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SITE_URL ='http://127.0.0.1:8000'
+#SITE_URL ='http://127.0.0.1:8000'
+SITE_URL = os.environ.get('SITE_URL')
 
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")

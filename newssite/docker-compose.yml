@@ -16,23 +16,19 @@ services:
       - .:/code
     ports:
       - "8000:8000"
-    environment:
-      - POSTGRES_NAME=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+    env_file:
+      - ./.env
     depends_on:
       - db
   redis:
     image: "redis:alpine"
   celery:
     build: .
-    command: celery -A newssite worker  --loglevel=DEBUG
+    command: celery -A newssite worker  --loglevel=INFO
     volumes:
       - .:/code
-    environment:
-      - DEBUG=1
-      - CELERY_BROKER=redis://redis:6379/0
-      - CELERY_BACKEND=redis://redis:6379/0
+    env_file:
+      - ./.env
     depends_on:
       - web
       - redis

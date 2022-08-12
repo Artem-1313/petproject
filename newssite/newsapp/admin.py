@@ -8,6 +8,7 @@ from accounts.admin import new_admin_site
 
 @admin.register(Article, site=new_admin_site)
 class ArticleAdmin(admin.ModelAdmin):
+    list_per_page = 15
     list_display = ('title', 'likes_count', 'comments_count')
     list_filter = (
         ('categories', admin.RelatedFieldListFilter),
