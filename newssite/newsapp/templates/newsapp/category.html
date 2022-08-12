@@ -3,6 +3,17 @@
 {% load static %}
 
 <h1>Новини для категорії {{ name }}</h1>
+
+<form action="{% url 'newsapp:category-follow' object.id %}" method="post">
+{% csrf_token %}
+    {% if user in object.followers.all %}
+    <button type="submit" name="category_id" value="{{ object.id }}" class="btn btn-secondary">Відписатись</button>
+    {% else %}
+      <button type="submit" name="category_id" value="{{ object.id }}" class="btn btn-info">Підписатись</button>
+    {% endif %}
+
+</form>
+<br>
 <ul>
 {% for article in object_list %}
    <div class="container-fluid">
@@ -25,7 +36,7 @@
 </div>
     <br>
 {% empty %}
-    <li>No articles yet.</li>
+    <li>Не має новин по заданій категорії</li>
 {% endfor %}
 </ul>
 

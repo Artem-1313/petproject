@@ -9,6 +9,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin,  UserPassesTestMixin
 from .forms import CommentForm
 from wheatherapp.utils import get_wheather
+
 # Create your views here.
 
 
@@ -23,6 +24,17 @@ class CategoryFilter(DetailView):
         return context
 
 
+class FollowCategory(LoginRequiredMixin, View):
+    def post(self, request, **kwargs):
+        category = get_object_or_404(Category, id=self.request.POST['category_id'])
+        print(self.request.POST)
+        user = self.request.user
+
+        if user in category.followers.all():
+            category.followers.remove(user)
+        else:
+            category.followers.add(user)
+        return HttpResponseRedirect(reverse('newsapp:category', args=[str(self.request.POST['category_id'])]))
 
 class LikeArticle(LoginRequiredMixin, View):
 
@@ -46,9 +58,11 @@ class ListArticles(ListView):
     paginate_by = 5
     template_name = "newsapp/main.html"
 
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['wheather'] = get_wheather
+        context['filter'] = Category.objects.all()
         return context
 
 
