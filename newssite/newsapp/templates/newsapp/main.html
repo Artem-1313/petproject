@@ -13,28 +13,40 @@
 
 <h1>Новини</h1>
 <ul>
+<div class="row">
+    <div class="col-8">
+        {% for article in object_list %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-3">
+                    <a href="{% url 'newsapp:article_detail' article.id %}" class="img-fluid"> <img
+                            src="{{ article.image.url }}" width="170px"></a>
+                </div>
+                <div class="col-4">
+                    <a href="{% url 'newsapp:category'  article.categories.id %}">{{ article.categories }}</a>
+                    <a href="{% url 'newsapp:article_detail' article.id %}" class="img-fluid">
+                        <button class="btn btn-primary">Детальніше</button>
+                    </a>
+                    <p><b class="text-muted">Автор</b> {{ article.author.get_full_name }} </p>
+                    <p><b class="text-muted">Створено</b> {{ article.created_article }} </p>
+                </div>
 
-{% for article in object_list %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-2">
-                <a href="{% url 'newsapp:article_detail' article.id %}" class="img-fluid"> <img
-                        src="{{ article.image.url }}" width="170px"></a>
+
+                {{ article.annotation }}
+                {{ article.categories }}
+
+
             </div>
-            <div class="col-2">
-                <a href="{% url 'newsapp:category'  article.categories.id %}">{{ article.categories }}</a>
-                <a href="{% url 'newsapp:article_detail' article.id %}" class="img-fluid">
-                    <button class="btn btn-primary">Детальніше</button>
-                </a>
-                <p><b class="text-muted">Автор</b> {{ article.author.get_full_name }} </p>
-                <p><b class="text-muted">Створено</b> {{ article.created_article }} </p>
-            </div>
+        </div>
+    <br>
 
+{% empty %}
+    <li>Не має новин.</li>
+{% endfor %}
 
-            {{ article.annotation }}
-            {{ article.categories }}
-            <div class="col-5">
-                <div class="row">
+    </div>
+    <div class="col-4">
+         <div class="row">
                     <div class="col-3"></div>
 
                     <div class="col-4">
@@ -52,14 +64,9 @@
                     </div>
 
                 </div>
-            </div>
-        </div>
     </div>
-    <br>
+</div>
 
-{% empty %}
-    <li>Не має новин.</li>
-{% endfor %}
 </ul>
 <div class="pagination">
     <span class="step-links">

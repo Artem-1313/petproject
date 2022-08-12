@@ -24,7 +24,6 @@ class NewAdminSite(AdminSite):
         return super(NewAdminSite, self).index(request, extra_context=extra_context)
 
 
-
 new_admin_site = NewAdminSite()
 
 
@@ -33,25 +32,17 @@ class ArticleInline(admin.StackedInline):
     model = Article
     verbose_name_plural = "Пости"
     fields = ('title', 'annotation', 'body')
-    readonly_fields = ('id',  'title', 'annotation', 'body')
+    readonly_fields = ('id', 'title', 'annotation', 'body')
     can_delete = False
     extra = 0
-
-
 
 
 class CommentInline(admin.StackedInline):
-
-
     model = Comment
     verbose_name_plural = "Коментарі користувача "
-    readonly_fields = ('body', 'article', )
+    readonly_fields = ('body', 'article',)
     can_delete = False
     extra = 0
-
-
-
-
 
 
 class NewUserAdmin(UserAdmin):
@@ -70,11 +61,9 @@ class NewUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide', 'extrapretty'),
-            'fields': ('first_name', 'last_name', 'password2', 'is_staff', 'is_active', )}
+            'fields': ('first_name', 'last_name', 'password2', 'is_staff', 'is_active',)}
          ),
     )
-
-
 
     def comment_count(self, obj):
         return obj.comment_set.count()
@@ -84,9 +73,6 @@ class NewUserAdmin(UserAdmin):
 
     comment_count.short_description = 'Кількість коментарів'
 
-    def add_view(self, request, extra_content=None):
-        print(self.request)
-        return super(NewUserAdmin, self).add_view(request)
 
 new_admin_site.register(NewUser, NewUserAdmin)
 new_admin_site.register(Subscriber)

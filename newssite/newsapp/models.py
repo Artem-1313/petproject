@@ -30,9 +30,9 @@ class Article(models.Model):
     def sum_of_likes(self):
         return self.likes.all().count()
 
-    # @property
-    # def sum_of_comments(self):
-    #     return self.comments.all().count()
+    class Meta:
+        verbose_name = "Новини"
+        verbose_name_plural = "Новини"
 
 class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -40,6 +40,10 @@ class Category(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    class Meta:
+        verbose_name = "Категорії"
+        verbose_name_plural = "Категорії"
 
 
 
@@ -54,12 +58,20 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.body[:20]}"
 
+    class Meta:
+        verbose_name = "Коментарі"
+        verbose_name_plural = "Коментарі"
+
 
 class Subscriber(models.Model):
     email = models.EmailField(verbose_name="email", max_length=100, unique=True)
 
     def __str__(self):
         return f"{self.email}"
+
+    class Meta:
+        verbose_name = "Підписники"
+        verbose_name_plural = "Підписники"
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

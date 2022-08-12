@@ -38,6 +38,7 @@ class NewUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 class NewUser(AbstractUser):
     username = None
     email = models.EmailField(verbose_name="email", max_length=100, unique=True)
@@ -46,9 +47,12 @@ class NewUser(AbstractUser):
 
     objects = NewUserManager()
 
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
     def __str__(self):
         return f"{self.email}"
+
+    class Meta:
+        verbose_name = "Користувачі"
+        verbose_name_plural = "Користувачі"
