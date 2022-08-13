@@ -150,7 +150,6 @@ EMAIL_USE_SSL = True
 EMAIL_HOST = 'smtp.ukr.net'
 EMAIL_HOST_USER = 'artemkhmil@ukr.net'
 EMAIL_HOST_PASSWORD = os.environ.get('MAIL_PASSWORD')
-#EMAIL_HOST_PASSWORD = 'TYrTVprJcvBncNaN'
 EMAIL_PORT = 465
 
 
