@@ -95,8 +95,8 @@ class TopNews(ListAPIView):
         week_ago = today - datetime.timedelta(days=2)
         id_top_article = [i['article'] for i in
                           list(Comment.objects.values('article').annotate(dcount=Count('article_id')))
-                          if i['dcount'] >= 2]
-        id_top_like = [i.id for i in Article.objects.all() if i.likes.all().count() >= 1]
+                          if i['dcount'] >= 10]
+        id_top_like = [i.id for i in Article.objects.all() if i.likes.all().count() >= 10]
 
         queryset = Article.objects.filter((Q(pk__in=id_top_article) | Q(pk__in=id_top_like) | Q(top_news=True)) &
                                           Q(created_article__range=(week_ago, today)))
